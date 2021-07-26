@@ -1,5 +1,33 @@
 <script>
-	export let participants;
+	//SVELTE
+	import { onMount } from 'svelte'
+
+	//LIBS
+	import {csv} from 'd3-fetch'
+	
+	//COMPONENTS
+	import Treemap from './Treemap.svelte'
+
+	export let participants
+
+	let inputData = []
+	//Load the word data and set variables
+	onMount(async () => {
+		inputData = await csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vTpHsrDU_GQb1bscKLWeyuWt_5N5UglcmtuyfjizGE3h27UKIJ9f-UvOFv7mOsoM3POpYq_vSrAXwK_/pub?gid=1518708891&single=true&output=csv')
+		  console.log(inputData)
+		  const formattedData = formatData(inputData)
+		  // drawViz(formattedData)
+	})
+
+	function formatData(raw){
+	  const values = raw  
+	  .map((row) => row._cat_country)
+	  .filter((value) => value)
+	  .sort()
+	  // .map((country) => get(`:${country}:`))
+	  .map(country => country)
+	  return values
+	}
 </script>
 
 <main>
@@ -9,6 +37,8 @@
 			<li>{participant}</li>
 		{/each}
 	<ul>
+
+	<Treemap data={inputData}/>
 </main>
 
 <style>
@@ -20,7 +50,7 @@
 	}
 
 	h1 {
-		color: #ff3e00;
+		color: rgb(204, 108.22, 51);
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;
