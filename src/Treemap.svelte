@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from 'svelte'
+  import * as d3 from "d3"
   export let data
 
   console.log("loaded", data)
@@ -9,8 +11,22 @@
   const columWidth = width / columns
   const height = width
 
+
+  const formattedData = formatData(data)
+  drawViz(formattedData)
+
+  function formatData(raw){
+    const values = raw  
+    .map((row) => row._cat_country)
+    .filter((value) => value)
+    .sort()
+    // .map((country) => get(`:${country}:`))
+    .map(country => country)
+    return values
+  }
   
   function drawViz(data){
+    console.log("drawing viz")
     const hierarchy = {
       name: 'values',
       children: data.map((value) => ({
