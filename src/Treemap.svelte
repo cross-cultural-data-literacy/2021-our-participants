@@ -4,15 +4,13 @@
   export let data
 
   console.log("loadedd", data)
-  // import {get} from 'emoji-name-map'
+  import * as nameMap from 'emoji-name-map'
 
-  // const columns = 8
-  // const width = 400
-  // const columWidth = width / columns
-  // const height = width
+  const columns = 8
+  const width = 800
+  const columnWidth = width / columns
+  const height = 600
 
-  let width = 800
-  let height = 600
   let d3Treemap
   let cells
 
@@ -24,7 +22,7 @@
     .map((row) => row._cat_country)
     .filter((value) => value)
     .sort()
-    // .map((country) => get(`:${country}:`))
+    .map((country) => nameMap.get(`:${country}:`))
     .map(country => country)
     return values
   }
@@ -48,11 +46,12 @@
           .sum((d) => d.value)
           .sort((a, b) => b.value - a.value))
     //Setting these variables triggers svelte to rerender the relevant elements
-    width = treemap.x1
-    height = treemap.y1
+    // width = treemap.x1
+    // height = treemap.y1
     d3Treemap = treemap
     cells = treemap.children
   }
+
 </script>
 
 <svg width={width} height={height} viewbox="0 0 {width} {height}">
@@ -62,8 +61,12 @@
   </g>
   {#each cells as cell}
   <g>
-    <rect class="node" x={cell.x0} y={cell.y0} width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}/>
-    <text x={cell.x0} y={cell.y0}>{cell.data.name}</text>
+    <rect class="node" x={cell.x0} y={cell.y0} 
+          width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
+    />
+    <text x={cell.x0} y={cell.y0}
+          style="--text-size: {columnWidth}">{cell.data.name}
+    </text>
   </g>
   {/each}
 </svg>
@@ -74,6 +77,7 @@
   }
   text {
     fill: rgb(0, 0, 139);
+    font-size: var(--text-size); 
   }
 </style>
 

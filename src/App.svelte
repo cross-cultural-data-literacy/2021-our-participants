@@ -8,8 +8,6 @@
 	//COMPONENTS
 	import Treemap from './Treemap.svelte'
 
-	export let participants
-
 	let inputData = []
 	//Load the word data and set variables
 	onMount(async () => {
@@ -20,11 +18,6 @@
 
 <main>
 	<h1>Our participants</h1>
-	<ul>
-		{#each participants as participant}
-			<li>{participant}</li>
-		{/each}
-	</ul>
 
 	{#if inputData.length > 0}
 		<Treemap data={inputData}/>

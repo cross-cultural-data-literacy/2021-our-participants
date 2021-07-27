@@ -14,4 +14,4 @@ Any data included in the repository should be anonimised.
 
 ## Todo
 - emoji map wont load as lib
-- treemap component is rendered before data is loaded (https://svelte.dev/tutorial/onmount)
+- Variable font-size doesn't seem to work yet
