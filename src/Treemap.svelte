@@ -1,10 +1,9 @@
 <script>
   import { onMount } from 'svelte'
   import * as d3 from "d3"
-  export let data
-
-  console.log("loadedd", data)
   import * as nameMap from 'emoji-name-map'
+
+  export let data
 
   const columns = 8
   const width = 800
@@ -48,11 +47,9 @@
           .sum((d) => d.value)
           .sort((a, b) => b.value - a.value))
     //Setting these variables triggers svelte to rerender the relevant elements
-    // width = treemap.x1
-    // height = treemap.y1
     d3Treemap = treemap
     cells = treemap.children
-    console.log(cells)
+    // console.log(cells)
   }
 
 </script>
