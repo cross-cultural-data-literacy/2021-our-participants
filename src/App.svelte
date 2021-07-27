@@ -24,7 +24,7 @@
 		{#each participants as participant}
 			<li>{participant}</li>
 		{/each}
-	<ul>
+	</ul>
 
 	{#if inputData.length > 0}
 		<Treemap data={inputData}/>

@@ -3,14 +3,18 @@
   import * as d3 from "d3"
   export let data
 
-  console.log("loaded", data)
+  console.log("loadedd", data)
   // import {get} from 'emoji-name-map'
 
-  const columns = 8
-  const width = 400
-  const columWidth = width / columns
-  const height = width
+  // const columns = 8
+  // const width = 400
+  // const columWidth = width / columns
+  // const height = width
 
+  let width = 800
+  let height = 600
+  let d3Treemap
+  let cells
 
   const formattedData = formatData(data)
   drawViz(formattedData)
@@ -43,26 +47,33 @@
       (d3.hierarchy(hierarchy)
           .sum((d) => d.value)
           .sort((a, b) => b.value - a.value))
-    
-    draw(treemap)
-    function draw (treemap) {
-      const drawNode = (node) => htl.svg`
-        <rect class="node" x="${node.x0}" y="${node.y0}" width="${node.x1 - node.x0}" height="${node.y1 - node.y0}" />
-        ${node.data.name ? htl.svg`<text x="${node.x0}" y="${node.y0}">${node.data.name}</text>` : '' }
-        <g>
-          ${node.children ? node.children.map(drawNode) : '' }
-        </g>`
-
-        return htl.svg`<svg width="${treemap.x1}" height="${treemap.y1}" viewbox="0 0 ${treemap.x1} ${treemap.y1}">
-          ${drawNode(treemap)}
-        </svg>`
-    }
+    //Setting these variables triggers svelte to rerender the relevant elements
+    width = treemap.x1
+    height = treemap.y1
+    d3Treemap = treemap
+    cells = treemap.children
   }
 </script>
 
-<div></div>
+<svg width={width} height={height} viewbox="0 0 {width} {height}">
+  <g>
+    <rect class="node" x={d3Treemap.x0} y={d3Treemap.y0} width={d3Treemap.x1 - d3Treemap.x0} height={d3Treemap.y1 - d3Treemap.y0}/>
+    <text x={d3Treemap.x0} y={d3Treemap.y0}>{d3Treemap.data.name}</text>
+  </g>
+  {#each cells as cell}
+  <g>
+    <rect class="node" x={cell.x0} y={cell.y0} width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}/>
+    <text x={cell.x0} y={cell.y0}>{cell.data.name}</text>
+  </g>
+  {/each}
+</svg>
 
 <style>
-  
+  svg {
+    fill: none;
+  }
+  text {
+    fill: rgb(0, 0, 139);
+  }
 </style>
 
