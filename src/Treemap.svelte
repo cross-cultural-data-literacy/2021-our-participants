@@ -22,7 +22,9 @@
     .map((row) => row._cat_country)
     .filter((value) => value)
     .sort()
-    .map((country) => nameMap.get(`:${country}:`))
+    .map((country) => {
+      return nameMap.get(country) ? nameMap.get(country) : ''
+    })
     .map(country => country)
     return values
   }
@@ -50,6 +52,7 @@
     // height = treemap.y1
     d3Treemap = treemap
     cells = treemap.children
+    console.log(cells)
   }
 
 </script>
@@ -65,7 +68,7 @@
           width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
     />
     <text x={cell.x0} y={cell.y0}
-          style="--text-size: {columnWidth}">{cell.data.name}
+          style="--text-size: {columnWidth}px">{cell.data.name}
     </text>
   </g>
   {/each}
@@ -78,6 +81,7 @@
   text {
     fill: rgb(0, 0, 139);
     font-size: var(--text-size); 
+
   }
 </style>
 
