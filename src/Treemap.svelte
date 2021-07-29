@@ -4,24 +4,27 @@
   import * as nameMap from 'emoji-name-map'
 
   export let data
-
-  const columns = 8
-  const width = 800
-  const columnWidth = width / columns
-  const height = 600
+  export let width
+  export let height
 
   let d3Treemap
   let cells
+  let column = "_cat_country"
 
   const formattedData = formatData(data)
   drawViz(formattedData)
 
   function formatData(raw){
     const values = raw  
-    .map((row) => row._cat_country)
+    .map((row) => row[column])
     .filter((value) => value)
     .sort()
     .map((country) => {
+      if (nameMap.get(country) == undefined) {
+        console.log("Emoji not found for", country)
+      }
+      //TODO: write nicer exception pattern here
+      if(country == "united states") return nameMap.get("us")
       return nameMap.get(country) ? nameMap.get(country) : ''
     })
     .map(country => country)
@@ -64,8 +67,9 @@
     <rect class="node" x={cell.x0} y={cell.y0} 
           width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
     />
-    <text x={cell.x0} y={cell.y0}
-          style="--text-size: {columnWidth}px">{cell.data.name}
+    <text x={cell.x0} y={cell.y0 + (cell.y1 - cell.y0)}
+          style="--text-size: {d3.min([cell.x1 - cell.x0, cell.y1 - cell.y0])}px">
+          {cell.data.name}
     </text>
   </g>
   {/each}
@@ -74,11 +78,12 @@
 <style>
   svg {
     fill: none;
+    stroke: rgba(127.5, 127.5, 127.5, 0.83);
+    stroke-width:  .05em;
   }
   text {
     fill: rgb(0, 0, 139);
     font-size: var(--text-size); 
-
   }
 </style>
 

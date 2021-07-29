@@ -8,6 +8,10 @@
 	//COMPONENTS
 	import Treemap from './Treemap.svelte'
 
+	console.log(screen.width)
+	const vizWidth = screen.width * .6
+	const vizheight = screen.height * .7
+
 	let inputData = []
 	//Load the word data and set variables
 	onMount(async () => {
@@ -20,7 +24,7 @@
 	<h1>Our participants</h1>
 
 	{#if inputData.length > 0}
-		<Treemap data={inputData}/>
+		<Treemap data={inputData} width={vizWidth} height={vizheight}/>
 	{/if}
 </main>
 
@@ -33,8 +37,8 @@
 	h1 {
 		color: rgb(204, 108.22, 51);
 		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
+		font-size: 2em;
+		font-weight: 200;
 	}
 
 	@media (min-width: 640px) {

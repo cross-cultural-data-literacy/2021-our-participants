@@ -13,5 +13,12 @@ Any data included in the repository should be anonimised.
 - [d3 preprocessing + svelte template logic for rendering](https://svelte.dev/repl/8262eb73a08f48adba8e0b706c1a939f?version=3.22.1)
 
 ## Todo
-- emoji map wont load as lib
-- Variable font-size doesn't seem to work yet
+- Make treemap work for other data columns
+- Treemap should group similar nodes! That way they can also visually be grouped
+- Emoji text-size should be refined, current method doesn't stay within bounds for different resolutions
+
+## Change notes
+Laurens:
+- The text of each node was actually positioned in the cell above, resulting in empty rows at the bottom. Changed it by adding the height of the cell to the y-pos. Might be better to transform/position the parent group?
+- Added exception pattern for some mismatched emoji's 🙁
+- Columnwidth was calculated by hand but actually defined by d3. So i've removed it.
