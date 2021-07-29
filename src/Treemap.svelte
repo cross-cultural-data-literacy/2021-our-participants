@@ -3,6 +3,8 @@
   import * as d3 from "d3"
   import * as nameMap from 'emoji-name-map'
 
+  import Dropdown from './ui_components/Dropdown.svelte'
+
   export let data
   export let width
   export let height
@@ -11,22 +13,22 @@
   let d3Treemap
   let cells
 
-  const treemapData = {
-    country:{
+  const treemapData = [
+    {
       name: "country",
       title: "In which country do you live?",
       data: formatData(data, "_cat_country")
     },
-    transportation:{
+    {
       name: "transportation",
       title: "What is your main means of transportation?",
       data: formatData(data, "_transportation_emoji")
     },
-  }
-
-  let title = treemapData.country.title
-
-  drawViz(treemapData.transportation)
+  ]
+  let title = "Select a question below"
+  
+  //Trigger the drawing of an initial treemap
+  drawViz(treemapData[0])
 
   //Format data depending on chosen column
   function formatData(raw, column){
@@ -56,7 +58,6 @@
   //Have d3 calculate the treemap setup and trigger a svelte rerender
   function drawViz(input){
     console.log("Rendering treemap for column:", input.name)
-    title = input.title
     const hierarchy = {
       name: 'values',
       children: input.data.map((value) => ({
@@ -78,8 +79,15 @@
     cells = treemap.children
   }
 
+  function changeColumn(e){
+    drawViz(treemapData.find(obj => obj.name == e.detail.text))
+  }
 </script>
 <h2>{title}</h2>
+<Dropdown
+  options={treemapData}
+  on:selection={changeColumn}
+/>
 <svg width={width} height={height} viewbox="0 0 {width} {height}">
   <g>
     <rect class="node" x={d3Treemap.x0} y={d3Treemap.y0} width={d3Treemap.x1 - d3Treemap.x0} height={d3Treemap.y1 - d3Treemap.y0}/>

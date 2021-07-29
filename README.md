@@ -13,7 +13,6 @@ Any data included in the repository should be anonimised.
 - [d3 preprocessing + svelte template logic for rendering](https://svelte.dev/repl/8262eb73a08f48adba8e0b706c1a939f?version=3.22.1)
 
 ## Todo
-- Make treemap work for other data columns
 - Treemap should group similar nodes! That way they can also visually be grouped
 - Emoji text-size should be refined, current method doesn't stay within bounds for different resolutions
 
