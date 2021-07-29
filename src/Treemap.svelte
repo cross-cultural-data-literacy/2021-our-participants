@@ -7,35 +7,59 @@
   export let width
   export let height
 
+  //template data
   let d3Treemap
   let cells
-  let column = "_cat_country"
 
-  const formattedData = formatData(data)
-  drawViz(formattedData)
+  const treemapData = {
+    country:{
+      name: "country",
+      title: "In which country do you live?",
+      data: formatData(data, "_cat_country")
+    },
+    transportation:{
+      name: "transportation",
+      title: "What is your main means of transportation?",
+      data: formatData(data, "_transportation_emoji")
+    },
+  }
 
-  function formatData(raw){
-    const values = raw  
+  let title = treemapData.country.title
+
+  drawViz(treemapData.transportation)
+
+  //Format data depending on chosen column
+  function formatData(raw, column){
+    let values = raw  
     .map((row) => row[column])
     .filter((value) => value)
     .sort()
-    .map((country) => {
-      if (nameMap.get(country) == undefined) {
-        console.log("Emoji not found for", country)
-      }
-      //TODO: write nicer exception pattern here
-      if(country == "united states") return nameMap.get("us")
-      return nameMap.get(country) ? nameMap.get(country) : ''
-    })
-    .map(country => country)
+
+    if (column == "_cat_country"){
+      values = values.map((country) => {
+        //TODO: write nicer exception pattern here
+        if(country == "united states") return nameMap.get("us")
+        if (nameMap.get(country) == undefined) {
+          console.log("Emoji not found for:", country)
+        }
+        return nameMap.get(country) ? nameMap.get(country) : ''
+      })
+    }
+    if (column == "_transportation_emoji"){
+      //note: Because emoji's consist of multiple chars a simple emoji[0] doesn't work here
+      values = values.map(emoji => [...emoji][0])
+      console.log("formatted column data", values)
+    }
     return values
   }
   
-  function drawViz(data){
-    console.log("drawing viz")
+  //Have d3 calculate the treemap setup and trigger a svelte rerender
+  function drawViz(input){
+    console.log("Rendering treemap for column:", input.name)
+    title = input.title
     const hierarchy = {
       name: 'values',
-      children: data.map((value) => ({
+      children: input.data.map((value) => ({
         name: value,
         value: 10,
         children: []
@@ -52,11 +76,10 @@
     //Setting these variables triggers svelte to rerender the relevant elements
     d3Treemap = treemap
     cells = treemap.children
-    // console.log(cells)
   }
 
 </script>
-
+<h2>{title}</h2>
 <svg width={width} height={height} viewbox="0 0 {width} {height}">
   <g>
     <rect class="node" x={d3Treemap.x0} y={d3Treemap.y0} width={d3Treemap.x1 - d3Treemap.x0} height={d3Treemap.y1 - d3Treemap.y0}/>
@@ -86,4 +109,3 @@
     font-size: var(--text-size); 
   }
 </style>
-
