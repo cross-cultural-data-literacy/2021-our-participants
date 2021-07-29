@@ -26,5 +26,6 @@
     border: none;
     font-size: larger;
     border-bottom: 1px solid rgb(204, 108.22, 51);
+    text-align-last: center;
   }
 </style>

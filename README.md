@@ -15,9 +15,11 @@ Any data included in the repository should be anonimised.
 ## Todo
 - Treemap should group similar nodes! That way they can also visually be grouped
 - Emoji text-size should be refined, current method doesn't stay within bounds for different resolutions
+- Add something like alt-text so you can see the value of each cell on hover?
 
 ## Change notes
 Laurens:
 - The text of each node was actually positioned in the cell above, resulting in empty rows at the bottom. Changed it by adding the height of the cell to the y-pos. Might be better to transform/position the parent group?
 - Added exception pattern for some mismatched emoji's 🙁
 - Columnwidth was calculated by hand but actually defined by d3. So i've removed it.
+- The google drive urls are not the right urls for embedding... using [this solution](https://support.google.com/drive/thread/34363118/embed-public-google-drive-image-into-a-html-so-it-is-viewable-to-the-public-static-image-url?hl=en&msgid=34384934) to rewrite urls

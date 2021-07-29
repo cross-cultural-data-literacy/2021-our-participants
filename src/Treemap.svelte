@@ -24,8 +24,14 @@
       title: "What is your main means of transportation?",
       data: formatData(data, "_transportation_emoji")
     },
+    {
+      name: "room drawing",
+      title: "What does your room look like?",
+      data: formatData(data, "_drawing_room")
+    },
   ]
   let title = "Select a question below"
+  let currentColumn = treemapData[0].name
   
   //Trigger the drawing of an initial treemap
   drawViz(treemapData[0])
@@ -50,8 +56,16 @@
     if (column == "_transportation_emoji"){
       //note: Because emoji's consist of multiple chars a simple emoji[0] doesn't work here
       values = values.map(emoji => [...emoji][0])
-      console.log("formatted column data", values)
     }
+    if (column == "_drawing_room"){
+      //note: Some string rewriting to get the actual deeplink to the image
+      values = values.map(url => {
+        return url.slice(0, url.indexOf('uc?id=')) + "uc?export=view&" + url.slice(url.indexOf('id='))
+      })
+      //uc?export=view&id=file's ID
+      //https://drive.google.com/uc?id=1qtmJjnlJhHrvI0p9QL4myfhWCoL-O2SW
+    }
+    console.log("formatted column data", values)
     return values
   }
   
@@ -81,6 +95,7 @@
 
   function changeColumn(e){
     drawViz(treemapData.find(obj => obj.name == e.detail.text))
+    currentColumn = e.detail.text
   }
 </script>
 <h2>{title}</h2>
@@ -98,10 +113,18 @@
     <rect class="node" x={cell.x0} y={cell.y0} 
           width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
     />
+    {#if currentColumn != "room drawing"}
     <text x={cell.x0} y={cell.y0 + (cell.y1 - cell.y0)}
           style="--text-size: {d3.min([cell.x1 - cell.x0, cell.y1 - cell.y0])}px">
           {cell.data.name}
     </text>
+    {:else}
+    <img class=""
+         src={cell.data.name}
+         width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
+         alt="Room Drawing">
+    {/if}
+
   </g>
   {/each}
 </svg>
