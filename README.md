@@ -16,6 +16,8 @@ Any data included in the repository should be anonimised.
 - Treemap should group similar nodes! That way they can also visually be grouped
 - Emoji text-size should be refined, current method doesn't stay within bounds for different resolutions
 - Add something like alt-text so you can see the value of each cell on hover?
+- Fix the two photo questions urls so they can be included
+- ``_drawing_neighbourhood`` has a trailing " " in the name. Should be removed and code adjusted
 
 ## Change notes
 Laurens:
@@ -23,3 +25,4 @@ Laurens:
 - Added exception pattern for some mismatched emoji's 🙁
 - Columnwidth was calculated by hand but actually defined by d3. So i've removed it.
 - The google drive urls are not the right urls for embedding... using [this solution](https://dev.to/temmietope/embedding-a-google-drive-image-in-html-3mm9) to rewrite urls
+- The images worked for a brief moment and then google said no(403). Possible solution [here](https://stackoverflow.com/questions/60129114/how-to-fix-403-error-while-displaying-images-from-google-drive).

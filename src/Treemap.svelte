@@ -17,24 +17,43 @@
     {
       name: "country",
       title: "In which country do you live?",
-      data: formatData(data, "_cat_country")
+      data: formatData(data, "_cat_country"),
+      type: "emoji"
     },
     {
       name: "transportation",
       title: "What is your main means of transportation?",
-      data: formatData(data, "_transportation_emoji")
+      data: formatData(data, "_transportation_emoji"),
+      type: "emoji"
     },
     {
       name: "room drawing",
       title: "What does your room look like?",
-      data: formatData(data, "_drawing_room")
+      data: formatData(data, "_drawing_room"),
+      type: "image"
     },
+    {
+      name: "neighbourhood drawing",
+      title: "What does your neighbourhood look like?",
+      data: formatData(data, "_drawing_neighbourhood "),
+      type: "image"
+    },
+    // {
+    //   name: "window picture",
+    //   title: "What do you see when you look out the window?",
+    //   data: formatData(data, "_photo_window")
+    // },
+    // {
+    //   name: "breakfast picture",
+    //   title: "What does your breakfast look like?",
+    //   data: formatData(data, "_photo_breakfast")
+    // },
   ]
   let title = "Select a question below"
-  let currentColumn = treemapData[0].name
+  let currentQuestion = treemapData[0]
   
   //Trigger the drawing of an initial treemap
-  drawViz(treemapData[0])
+  drawViz(currentQuestion)
 
   //Format data depending on chosen column
   function formatData(raw, column){
@@ -57,16 +76,11 @@
       //note: Because emoji's consist of multiple chars a simple emoji[0] doesn't work here
       values = values.map(emoji => [...emoji][0])
     }
-    if (column == "_drawing_room"){
-      //note: Some string rewriting to get the actual deeplink to the image
+    if (column == "_drawing_room" || column == "_drawing_neighbourhood"){
+      //note: Some string rewriting to get the embeddable deeplink to the image
       values = values.map(url => {
         return 'https://drive.google.com/uc?export=view&id='+ url.split('uc?id=')[1]
       })
-      //return 'https://drive.google.com/file/d/'+ url.split('uc?id=')[1]+'/preview'
-      //https://drive.google.com/uc?export=view&id=
-      //https://drive.google.com/file/d/15-XRQOsxkH3oEt1-dodKSwh45rhL062W/preview
-      //uc?export=view&id=file's ID
-      //https://drive.google.com/uc?id=1qtmJjnlJhHrvI0p9QL4myfhWCoL-O2SW
     }
     console.log("formatted column data", values)
     return values
@@ -97,8 +111,8 @@
   }
 
   function changeColumn(e){
-    drawViz(treemapData.find(obj => obj.name == e.detail.text))
-    currentColumn = e.detail.text
+    currentQuestion = treemapData.find(obj => obj.name == e.detail.text)
+    drawViz(currentQuestion)
   }
 </script>
 <h2>{title}</h2>
@@ -116,7 +130,7 @@
     <rect class="node" x={cell.x0} y={cell.y0} 
           width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
     />
-    {#if currentColumn != "room drawing"}
+    {#if currentQuestion.type == "emoji"}
     <text x={cell.x0} y={cell.y0 + (cell.y1 - cell.y0)}
           style="--text-size: {d3.min([cell.x1 - cell.x0, cell.y1 - cell.y0])}px">
           {cell.data.name}
