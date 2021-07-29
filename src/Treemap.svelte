@@ -60,8 +60,11 @@
     if (column == "_drawing_room"){
       //note: Some string rewriting to get the actual deeplink to the image
       values = values.map(url => {
-        return url.slice(0, url.indexOf('uc?id=')) + "uc?export=view&" + url.slice(url.indexOf('id='))
+        return 'https://drive.google.com/uc?export=view&id='+ url.split('uc?id=')[1]
       })
+      //return 'https://drive.google.com/file/d/'+ url.split('uc?id=')[1]+'/preview'
+      //https://drive.google.com/uc?export=view&id=
+      //https://drive.google.com/file/d/15-XRQOsxkH3oEt1-dodKSwh45rhL062W/preview
       //uc?export=view&id=file's ID
       //https://drive.google.com/uc?id=1qtmJjnlJhHrvI0p9QL4myfhWCoL-O2SW
     }
@@ -119,10 +122,11 @@
           {cell.data.name}
     </text>
     {:else}
-    <img class=""
-         src={cell.data.name}
+    <image class=""
+         xlink:href={cell.data.name}
+         x={cell.x0} y={cell.y0}
          width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
-         alt="Room Drawing">
+         alt="Room Drawing"/>
     {/if}
 
   </g>
