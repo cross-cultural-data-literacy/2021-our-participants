@@ -1,6 +1,5 @@
 <script>
-  import { onMount } from 'svelte'
-  import * as d3 from "d3"
+  import {treemap, hierarchy, treemapResquarify} from "d3-hierarchy"
   import * as nameMap from 'emoji-name-map'
 
   import Dropdown from './ui_components/Dropdown.svelte'
@@ -8,10 +7,11 @@
   export let data
   export let width
   export let height
-
+  console.log("rendering with data", data)
   //template data
   let d3Treemap
   let cells
+
 
   const treemapData = [
     {
@@ -35,7 +35,7 @@
     {
       name: "neighbourhood drawing",
       title: "What does your neighbourhood look like?",
-      data: formatData(data, "_drawing_neighbourhood "),
+      data: formatData(data, "_drawing_neighbourhood"),
       type: "image"
     },
     // {
@@ -62,7 +62,7 @@
     .filter((value) => value)
     .sort()
 
-    if (column == "_cat_country"){
+    if (column === "_cat_country"){
       values = values.map((country) => {
         //TODO: write nicer exception pattern here
         if(country == "united states") return nameMap.get("us")
@@ -72,11 +72,11 @@
         return nameMap.get(country) ? nameMap.get(country) : ''
       })
     }
-    if (column == "_transportation_emoji"){
+    else if (column === "_transportation_emoji"){
       //note: Because emoji's consist of multiple chars a simple emoji[0] doesn't work here
       values = values.map(emoji => [...emoji][0])
     }
-    if (column == "_drawing_room" || column == "_drawing_neighbourhood"){
+    else if (column === "_drawing_room" || column == "_drawing_neighbourhood"){
       //note: Some string rewriting to get the embeddable deeplink to the image
       values = values.map(url => {
         return 'https://drive.google.com/uc?export=view&id='+ url.split('uc?id=')[1]
@@ -89,7 +89,7 @@
   //Have d3 calculate the treemap setup and trigger a svelte rerender
   function drawViz(input){
     console.log("Rendering treemap for column:", input.name)
-    const hierarchy = {
+    const newHierarchy = {
       name: 'values',
       children: input.data.map((value) => ({
         name: value,
@@ -97,17 +97,17 @@
         children: []
       }))
     }
-    const treemap = d3.treemap()
-        .tile(d3.treemapResquarify.ratio(1))
+    const newTreemap = treemap()
+        .tile(treemapResquarify.ratio(1))
         .size([width, height])
         .padding(1)
         .round(true)
-      (d3.hierarchy(hierarchy)
+      (hierarchy(newHierarchy)
           .sum((d) => d.value)
           .sort((a, b) => b.value - a.value))
     //Setting these variables triggers svelte to rerender the relevant elements
-    d3Treemap = treemap
-    cells = treemap.children
+    d3Treemap = newTreemap
+    cells = newTreemap.children
   }
 
   function changeColumn(e){
@@ -132,7 +132,7 @@
     />
     {#if currentQuestion.type == "emoji"}
     <text x={cell.x0} y={cell.y0 + (cell.y1 - cell.y0)}
-          style="--text-size: {d3.min([cell.x1 - cell.x0, cell.y1 - cell.y0])}px">
+          style="font-size: {Math.min(cell.x1 - cell.x0, cell.y1 - cell.y0)}px;">
           {cell.data.name}
     </text>
     {:else}
@@ -142,7 +142,6 @@
          width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
          alt="Room Drawing"/>
     {/if}
-
   </g>
   {/each}
 </svg>
@@ -155,6 +154,5 @@
   }
   text {
     fill: rgb(0, 0, 139);
-    font-size: var(--text-size); 
   }
 </style>
