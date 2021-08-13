@@ -9,9 +9,10 @@
   export let height
   console.log("rendering with data", data)
   //template data
+  const imageFolder = 'assets/images/resized/'
+  const imageExtension = '.png'
   let d3Treemap
   let cells
-
 
   const treemapData = [
     {
@@ -38,16 +39,16 @@
       data: formatData(data, "_drawing_neighbourhood"),
       type: "image"
     },
-    // {
-    //   name: "window picture",
-    //   title: "What do you see when you look out the window?",
-    //   data: formatData(data, "_photo_window")
-    // },
-    // {
-    //   name: "breakfast picture",
-    //   title: "What does your breakfast look like?",
-    //   data: formatData(data, "_photo_breakfast")
-    // },
+    {
+      name: "window picture",
+      title: "What do you see when you look out the window?",
+      data: formatData(data, "_photo_window")
+    },
+    {
+      name: "breakfast picture",
+      title: "What does your breakfast look like?",
+      data: formatData(data, "_photo_breakfast")
+    },
   ]
   let title = "Select a question below"
   let currentQuestion = treemapData[0]
@@ -58,29 +59,33 @@
   //Format data depending on chosen column
   function formatData(raw, column){
     let values = raw  
-    .map((row) => row[column])
-    .filter((value) => value)
-    .sort()
-
+        .map((row) => row[column])
+    
     if (column === "_cat_country"){
-      values = values.map((country) => {
-        //TODO: write nicer exception pattern here
-        if(country == "united states") return nameMap.get("us")
-        if (nameMap.get(country) == undefined) {
-          console.log("Emoji not found for:", country)
-        }
-        return nameMap.get(country) ? nameMap.get(country) : ''
+      values = values
+        .filter((value) => value)
+        .sort()
+        .map((country) => {
+          if(country == "united states") return nameMap.get("us")
+          if (nameMap.get(country) == undefined) {
+            console.log("Emoji not found for:", country)
+          }
+          return nameMap.get(country) ? nameMap.get(country) : ''
       })
     }
     else if (column === "_transportation_emoji"){
+      values = values
+        .filter((value) => value)
+        .sort()
+        .map(emoji => [...emoji][0])
       //note: Because emoji's consist of multiple chars a simple emoji[0] doesn't work here
-      values = values.map(emoji => [...emoji][0])
     }
-    else if (column === "_drawing_room" || column == "_drawing_neighbourhood"){
-      //note: Some string rewriting to get the embeddable deeplink to the image
-      values = values.map(url => {
-        return 'https://drive.google.com/uc?export=view&id='+ url.split('uc?id=')[1]
-      })
+    else{
+      //Use the index of the row to reference the right image
+      // then filter out empty values
+      values = values
+        .map((value, i) => value == ''? null : column+i)
+        .filter(value => value !== null)
     }
     console.log("formatted column data", values)
     return values
@@ -137,7 +142,7 @@
     </text>
     {:else}
     <image class=""
-         xlink:href={cell.data.name}
+         xlink:href={imageFolder + cell.data.name + imageExtension}
          x={cell.x0} y={cell.y0}
          width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
          alt="Room Drawing"/>
