@@ -17,9 +17,7 @@ Any data included in the repository should be anonimised.
 - Alternatively, switch to a list with list items and remove d3 treemap logic, as per [this example](https://observablehq.com/d/f9298c71ebe65027)
 - Emoji text-size should be refined, current method doesn't stay within bounds for different resolutions
 - Add something like alt-text so you can see the value of each cell on hover?
-- Fix the two photo questions urls so they can be included
-- Put static urls in a config file
-- Store gsheets csv as local json file
+- Store gsheets csv as local json file and remove refs to it in the code
 - Switch to personal card using [this](https://www.w3schools.com/howto/howto_css_flip_card.asp)
 - Some original images are way bigger than anything we will show on screen, even on a mousover popout full size. Ideally they should be resized so the user doesn't have to download 7mb images.
 - It looks like the 'sharp' image resizer sometimes takes cutouts of the images instead of actually resizing them. Do we decide this is a feature or a bug? (reproduce: look at neighbourhood47 original and resized)
@@ -35,3 +33,4 @@ Laurens:
 - The images worked for a brief moment and then google said no(403). Possible solution [here](https://stackoverflow.com/questions/60129114/how-to-fix-403-error-while-displaying-images-from-google-drive).
 - We could move the loading of data to the template logic using the async await block. Latest version of Svelte also supports a <then> block. Tried this but the component seems to render before the data is loaded so I reverted to the previous solution.
 - Preload images using [this](https://sharp.pixelplumbing.com/) and stores icons and full sizes. Store those in the GH repo. Was a hassle but it works quite well now. 
+- Fixed the two photo questions so all content is now complete as far as the treemap goes
