@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from 'svelte'
   export let options
   export let selected = ''
 
@@ -13,6 +13,7 @@
 </script>
 
 <div>
+  <!-- svelte-ignore a11y-no-onchange -->
   <select bind:value={selected} on:change={makeSelection}>
     {#each options as option}
       <option value={option.name}>{option.title}

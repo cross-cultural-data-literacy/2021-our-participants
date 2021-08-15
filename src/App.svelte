@@ -1,21 +1,15 @@
 <script>
-	//SVELTE
 	import { onMount } from 'svelte'
 
-	//LIBS
-	import {csv} from 'd3-fetch'
-	
-	//COMPONENTS
-	import Treemap from './Treemap.svelte'
+	import { csv } from 'd3-fetch'
 
-	const vizWidth = screen.width * .6
-	const vizheight = screen.height * .7
+	import Grid from './Grid.svelte'
 
 	let inputData = []
-	//Load the word data and set variables
+
+	// Load the word data and set variables
 	onMount(async () => {
 		inputData = await csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vTpHsrDU_GQb1bscKLWeyuWt_5N5UglcmtuyfjizGE3h27UKIJ9f-UvOFv7mOsoM3POpYq_vSrAXwK_/pub?gid=1518708891&single=true&output=csv')
-		console.log("data loaded")
 	})
 </script>
 
@@ -23,7 +17,7 @@
 	<h1>Our participants</h1>
 
 	{#if inputData.length > 0}
-		<Treemap data={inputData} width={vizWidth} height={vizheight}/>
+		<Grid data={inputData} />
 	{/if}
 </main>
 
