@@ -19,6 +19,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "d3-fetch": "^3.0.1",
     "d3-hierarchy": "^3.0.1",
     "emoji-name-map": "^1.2.9",
     "sirv-cli": "^1.0.0"
