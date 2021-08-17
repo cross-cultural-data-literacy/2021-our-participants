@@ -3,16 +3,17 @@
   import * as nameMap from 'emoji-name-map'
 
   import Dropdown from './ui_components/Dropdown.svelte'
+  import ProjectCard from './ProjectCard.svelte'
 
   export let data
   export let width
   export let height
-  console.log("rendering with data", data)
   //template data
   const imageFolder = 'assets/images/resized/'
   const imageExtension = '.png'
   let d3Treemap
   let cells
+  let currentParticipant = data[1]
 
   const treemapData = [
     {
@@ -150,6 +151,7 @@
   </g>
   {/each}
 </svg>
+<ProjectCard participant={currentParticipant}/>
 
 <style>
   svg {
