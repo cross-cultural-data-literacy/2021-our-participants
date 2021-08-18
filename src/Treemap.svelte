@@ -60,13 +60,19 @@
   //Format data depending on chosen column
   function formatData(raw, column){
     let values = raw  
-        .map((row) => row[column])
-    
+        .map((row) => {
+          return {
+            id: row._id,
+            value: row[column]
+          }
+        })
+    console.log('values', values)
     if (column === "_cat_country"){
       values = values
-        .filter((value) => value)
+        .filter((row) => row.value)
         .sort()
-        .map((country) => {
+        .map((row) => {
+          let country = row.value
           if(country == "united states") return nameMap.get("us")
           if (nameMap.get(country) == undefined) {
             console.log("Emoji not found for:", country)
@@ -76,17 +82,22 @@
     }
     else if (column === "_transportation_emoji"){
       values = values
-        .filter((value) => value)
+        .filter((row) => row.value)
         .sort()
-        .map(emoji => [...emoji][0])
+        .map(emoji => [...emoji.value][0])
       //note: Because emoji's consist of multiple chars a simple emoji[0] doesn't work here
     }
     else{
-      //Use the index of the row to reference the right image
-      // then filter out empty values
+      //Filter out the empty values
+      //TODO: check if .map(row => row.value = ) wont work
       values = values
-        .map((value, i) => value == ''? null : column+i)
-        .filter(value => value !== null)
+        .filter((row) => row.value)
+        .map((row) => {
+          return {
+            id: row.id,
+            value: column+row.id
+          }
+        })
     }
     console.log("formatted column data", values)
     return values
@@ -97,11 +108,11 @@
     console.log("Rendering treemap for column:", input.name)
     const newHierarchy = {
       name: 'values',
-      children: input.data.map((value, index) => ({
-        name: value,
+      children: input.data.map((row) => ({
+        name: row.value,
         //TODO: this is dummy code, the real ID needs to be injected earlier in the process when the data is filtered.
         value: 10,
-        id: index,
+        id: row.id,
         children: []
       }))
     }
