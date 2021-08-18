@@ -13,6 +13,8 @@ Any data included in the repository should be anonimised.
 - [d3 preprocessing + svelte template logic for rendering](https://svelte.dev/repl/8262eb73a08f48adba8e0b706c1a939f?version=3.22.1)
 
 ## Todo
+- The personal card should have more data like the participant's city and who they live with. Add some more columns to the data source and use them in the card
+- projectCard still needs to be styled and shown dynamically
 - Treemap should group similar nodes! That way they can also visually be grouped. Calculate the concave hull using [this](https://github.com/mapbox/concaveman). Pass in all coordinates of squares and get back a polygon for a polyline.
 - Alternatively, switch to a list with list items and remove d3 treemap logic, as per [this example](https://observablehq.com/d/f9298c71ebe65027)
 - Emoji text-size should be refined, current method doesn't stay within bounds for different resolutions
