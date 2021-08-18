@@ -1,29 +1,31 @@
 <script>
   import {settings as s} from './config.js'
 
+  //TODO the participant is not reactive yet. Changing the participant in the treemap doesn't update the data here
   export let participant
   const imageExtension = '.png'
   console.log(participant)
   console.log(s)
 
-  function participantHas(prop){
-    return participant[prop] !== ''
+  function participantHas(part, prop){
+    console.log(part, part[prop])
+    return part[prop] !== ''
   }
 </script>
 
 <article>
   <h1>Participant #{participant._id}</h1>
   <a href={participant._project_link} target="blank">Link to final work</a>
-  {#if participantHas('_drawing_neighbourhood')}
+  {#if participantHas(participant, '_drawing_neighbourhood')}
     <img src="{s.imageFolder + '/resized/_drawing_neighbourhood' + participant._id + imageExtension}" alt="Drawing of the neighbourhood"/>
   {/if}
-  {#if participantHas('_drawing_room')}
+  {#if participantHas(participant, '_drawing_room')}
     <img src="{s.imageFolder + '/resized/_drawing_room' + participant._id + imageExtension}" alt="Drawing of the participant's room"/>
   {/if}
-  {#if participantHas('_photo_breakfast')}
+  {#if participantHas(participant, '_photo_breakfast')}
     <img src="{s.imageFolder + '/resized/_photo_breakfast' + participant._id + imageExtension}" alt="Photo of the participant's breakfast"/>
   {/if}
-  {#if participantHas('_photo_window')}
+  {#if participantHas(participant, '_photo_window')}
     <img src="{s.imageFolder + '/resized/_photo_window' + participant._id + imageExtension}" alt="Photo out of the participant's window"/>
   {/if}
   <p>My main mode of transportation is: {participant._transportation} {participant._transportation_emoji}</p>

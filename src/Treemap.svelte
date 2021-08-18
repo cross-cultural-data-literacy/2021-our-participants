@@ -97,9 +97,11 @@
     console.log("Rendering treemap for column:", input.name)
     const newHierarchy = {
       name: 'values',
-      children: input.data.map((value) => ({
+      children: input.data.map((value, index) => ({
         name: value,
+        //TODO: this is dummy code, the real ID needs to be injected earlier in the process when the data is filtered.
         value: 10,
+        id: index,
         children: []
       }))
     }
@@ -120,6 +122,12 @@
     currentQuestion = treemapData.find(obj => obj.name == e.detail.text)
     drawViz(currentQuestion)
   }
+
+  function selectParticipant(e){
+    // console.log("participant clicked")
+    // console.log(e.currentTarget.id)
+    currentParticipant = data[e.currentTarget.id]
+  }
 </script>
 <h2>{title}</h2>
 <Dropdown
@@ -132,7 +140,7 @@
     <text x={d3Treemap.x0} y={d3Treemap.y0}>{d3Treemap.data.name}</text>
   </g>
   {#each cells as cell}
-  <g>
+  <g on:click={selectParticipant} id={cell.data.id}>
     <rect class="node" x={cell.x0} y={cell.y0} 
           width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
     />
