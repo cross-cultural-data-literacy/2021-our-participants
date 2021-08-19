@@ -25,6 +25,7 @@ Any data included in the repository should be anonimised.
 - Nice to have: larger popout versions of images on mouseover (with max width and height)
 - If we want to flip to the personal card by clicking on a cell. We'll have to match the value of the cell back to an original value in the csv to find the participant. Right now that's not possible as some of these values are emoji's. Prob the datamodel for the treemap will need to be a bit more complex to allow us to store the index of the row as an identifier. 
 - Repo can become public when the google sheet refs are removed and the sheet is offline
+- "I live together with" sentence generation doesn't always work. Might be better to replace with "living situation:" followed by the answer itself.
 
 ## Change notes
 Laurens:

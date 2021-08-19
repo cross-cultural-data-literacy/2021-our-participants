@@ -30,7 +30,11 @@
   {/if}
   <p>My main mode of transportation is: {participant._transportation} {participant._transportation_emoji}</p>
   <p>My favorite food is: {participant._favorite_food}</p>
-  <p>I live together with my {participant._housemates.toLowerCase().replace('my', '')} {participant._housemates_emoji}</p>
+  {#if participant._housemates.toLowerCase().includes('alone')}
+    <p>I live by myself</p>
+  {:else}
+    <p>I live together with my {participant._housemates.toLowerCase().replace('my', '')} {participant._housemates_emoji}</p>
+  {/if}
 </article>
 
 <style>
