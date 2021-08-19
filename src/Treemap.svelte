@@ -13,7 +13,7 @@
   const imageExtension = '.png'
   let d3Treemap
   let cells
-  let currentParticipant = data[1]
+  let currentParticipant
 
   const treemapData = [
     {
@@ -59,47 +59,33 @@
 
   //Format data depending on chosen column
   function formatData(raw, column){
-    let values = raw  
-        .map((row) => {
-          return {
-            id: row._id,
-            value: row[column]
-          }
-        })
-    console.log('values', values)
+    //For each row, check if it  has a relevant value and return an object with
+    // the id for the row and the value
+    let values = raw
+      .filter((row) => row[column])
+      .sort((rowA, rowB) => rowA[column].localeCompare(rowB[column]))
+      .map((row) => {
+        return {
+          id: row._id,
+          value: row[column]
+        }
+      })
     if (column === "_cat_country"){
-      values = values
-        .filter((row) => row.value)
-        .sort()
-        .map((row) => {
-          let country = row.value
-          if(country == "united states") return nameMap.get("us")
-          if (nameMap.get(country) == undefined) {
-            console.log("Emoji not found for:", country)
-          }
-          return nameMap.get(country) ? nameMap.get(country) : ''
+      values.forEach(row => {
+        if (row.value === "united states"){
+          row.value = "us"
+        }
+        row.value = nameMap.get(row.value) ? nameMap.get(row.value) : ''
       })
     }
     else if (column === "_transportation_emoji"){
-      values = values
-        .filter((row) => row.value)
-        .sort()
-        .map(emoji => [...emoji.value][0])
       //note: Because emoji's consist of multiple chars a simple emoji[0] doesn't work here
+      values.forEach(row => row.value = [...row.value][0])
     }
     else{
-      //Filter out the empty values
-      //TODO: check if .map(row => row.value = ) wont work
-      values = values
-        .filter((row) => row.value)
-        .map((row) => {
-          return {
-            id: row.id,
-            value: column+row.id
-          }
-        })
+      values.forEach(row => row.value = column+row.id)
     }
-    console.log("formatted column data", values)
+    console.log("formatted column data", column, values)
     return values
   }
   
@@ -110,7 +96,6 @@
       name: 'values',
       children: input.data.map((row) => ({
         name: row.value,
-        //TODO: this is dummy code, the real ID needs to be injected earlier in the process when the data is filtered.
         value: 10,
         id: row.id,
         children: []
@@ -170,7 +155,9 @@
   </g>
   {/each}
 </svg>
-<ProjectCard participant={currentParticipant}/>
+{#if currentParticipant}
+  <ProjectCard participant={currentParticipant}/>
+{/if}
 
 <style>
   svg {
