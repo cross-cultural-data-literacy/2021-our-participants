@@ -16,6 +16,7 @@
 	let flipped = false
 	let currentParticipant = false
 	
+	//This functions flips a node by tweening its yRot and opacity
 	function flip(node, {
 		delay = 0,
 		duration = 1000
@@ -38,28 +39,25 @@
 
 <main>
 	<h1>Our participants</h1>
-	<div class="card-container" on:click={() => flipped = !flipped}
-		style="width:{vizWidth}px; height:{vizHeight}px;">
-		<div class="card">
-			{#if !flipped}
-				<div class="side" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
-					{#if inputData.length > 0}
-						<Treemap  
-						data={inputData} 
-						width={vizWidth} 
-						height={vizHeight}
-						bind:currentParticipant={currentParticipant}
-						/>
-					{/if}
-				</div>
-			{:else if flipped}
-				<div class="side back" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
-					{#if currentParticipant}
-					  <ProjectCard participant={currentParticipant}/>
-					{/if}
-				</div>
-			{/if}
-		</div>
+	<div class="card-container" on:click={() => flipped = !flipped}>
+		{#if !flipped}
+			<div class="side" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
+				{#if inputData.length > 0}
+					<Treemap  
+					data={inputData} 
+					width={vizWidth} 
+					height={vizHeight}
+					bind:currentParticipant={currentParticipant}
+					/>
+				{/if}
+			</div>
+		{:else if flipped}
+			<div class="side back" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
+				{#if currentParticipant}
+				  <ProjectCard participant={currentParticipant}/>
+				{/if}
+			</div>
+		{/if}
 	</div>
 </main>
 
