@@ -125,36 +125,38 @@
     currentParticipant = data[e.currentTarget.id]
   }
 </script>
-<h2>{title}</h2>
-<Dropdown
-  options={treemapData}
-  on:selection={changeColumn}
-/>
-<svg width={width} height={height} viewbox="0 0 {width} {height}">
-  <g>
-    <rect class="node" x={d3Treemap.x0} y={d3Treemap.y0} width={d3Treemap.x1 - d3Treemap.x0} height={d3Treemap.y1 - d3Treemap.y0}/>
-    <text x={d3Treemap.x0} y={d3Treemap.y0}>{d3Treemap.data.name}</text>
-  </g>
-  {#each cells as cell}
-  <g on:click={selectParticipant} id={cell.data.id}>
-    <rect class="node" x={cell.x0} y={cell.y0} 
-          width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
-    />
-    {#if currentQuestion.type == "emoji"}
-    <text x={cell.x0} y={cell.y0 + (cell.y1 - cell.y0)}
-          style="font-size: {Math.min(cell.x1 - cell.x0, cell.y1 - cell.y0)}px;">
-          {cell.data.name}
-    </text>
-    {:else}
-    <image class=""
-         xlink:href={imageFolder + cell.data.name + imageExtension}
-         x={cell.x0} y={cell.y0}
-         width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
-         alt="Room Drawing"/>
-    {/if}
-  </g>
-  {/each}
-</svg>
+<article>
+  <h2>{title}</h2>
+  <Dropdown
+    options={treemapData}
+    on:selection={changeColumn}
+  />
+  <svg width={width} height={height} viewbox="0 0 {width} {height}">
+    <g>
+      <rect class="node" x={d3Treemap.x0} y={d3Treemap.y0} width={d3Treemap.x1 - d3Treemap.x0} height={d3Treemap.y1 - d3Treemap.y0}/>
+      <text x={d3Treemap.x0} y={d3Treemap.y0}>{d3Treemap.data.name}</text>
+    </g>
+    {#each cells as cell}
+    <g on:click={selectParticipant} id={cell.data.id}>
+      <rect class="node" x={cell.x0} y={cell.y0} 
+            width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
+      />
+      {#if currentQuestion.type == "emoji"}
+      <text x={cell.x0} y={cell.y0 + (cell.y1 - cell.y0)}
+            style="font-size: {Math.min(cell.x1 - cell.x0, cell.y1 - cell.y0)}px;">
+            {cell.data.name}
+      </text>
+      {:else}
+      <image class=""
+           xlink:href={imageFolder + cell.data.name + imageExtension}
+           x={cell.x0} y={cell.y0}
+           width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
+           alt="Room Drawing"/>
+      {/if}
+    </g>
+    {/each}
+  </svg>
+</article>
 {#if currentParticipant}
   <ProjectCard participant={currentParticipant}/>
 {/if}
