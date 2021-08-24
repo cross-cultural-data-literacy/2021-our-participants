@@ -19,3 +19,4 @@ A datavisualization project showing the diversity of our participants and their 
 - "I live together with" sentence generation doesn't always work. Might be better to replace with "living situation:" followed by the answer itself.
 - Host project somewhere. 
 - Check if it can be implemented in the main wordpress website
+- Add _important_ and _pet_ rows to personal card. Maybe pet to grid view

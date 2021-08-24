@@ -15,6 +15,8 @@
   let cells
   let currentParticipant
 
+  console.log(nameMap)
+  console.log(nameMap.get('dog'))
   const treemapData = [
     {
       name: "country",

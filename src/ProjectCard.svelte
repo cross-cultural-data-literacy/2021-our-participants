@@ -1,5 +1,6 @@
 <script>
   import {settings as s} from './config.js'
+  import {get as emojiGet} from 'emoji-name-map'
 
   //TODO the participant is not reactive yet. Changing the participant in the treemap doesn't update the data here
   export let participant
@@ -34,6 +35,9 @@
     <p>I live by myself</p>
   {:else}
     <p>I live together with my {participant._housemates.toLowerCase().replace('my', '')} {participant._housemates_emoji}</p>
+  {/if}
+  {#if participantHas(participant, '_pet')}
+    <p>I have a {participant._pet}! {emojiGet(participant._pet)}</p>
   {/if}
 </article>
 
