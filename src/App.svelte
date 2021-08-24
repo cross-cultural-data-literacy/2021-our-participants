@@ -7,24 +7,25 @@
 	
 	//COMPONENTS
 	import Treemap from './Treemap.svelte'
+	import ProjectCard from './ProjectCard.svelte'
 
 	const vizWidth = screen.width * .6
 	const vizHeight = screen.height * .7
 
 	let inputData = []
-
 	let flipped = false
+	let currentParticipant = false
 	
 	function flip(node, {
 		delay = 0,
-		duration = 1500
+		duration = 1000
 	}) {
 		return {
 			delay,
 			duration,
 			css: (t, u) => `
 				transform: rotateY(${1 - (u * 180)}deg);
-				opacity: ${1 - u};
+				opacity: ${.8 - u};
 			`
 		}
 	}
@@ -46,12 +47,16 @@
 						<Treemap  
 						data={inputData} 
 						width={vizWidth} 
-						height={vizHeight}/>
+						height={vizHeight}
+						bind:currentParticipant={currentParticipant}
+						/>
 					{/if}
 				</div>
 			{:else if flipped}
 				<div class="side back" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
-					Side B
+					{#if currentParticipant}
+					  <ProjectCard participant={currentParticipant}/>
+					{/if}
 				</div>
 			{/if}
 		</div>

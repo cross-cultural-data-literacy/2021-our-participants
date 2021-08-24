@@ -3,20 +3,18 @@
   import * as nameMap from 'emoji-name-map'
 
   import Dropdown from './ui_components/Dropdown.svelte'
-  import ProjectCard from './ProjectCard.svelte'
 
   export let data
   export let width
   export let height
+
+  export let currentParticipant
   //template data
   const imageFolder = 'assets/images/resized/'
   const imageExtension = '.png'
   let d3Treemap
   let cells
-  let currentParticipant
 
-  console.log(nameMap)
-  console.log(nameMap.get('dog'))
   const treemapData = [
     {
       name: "country",
@@ -121,9 +119,9 @@
     drawViz(currentQuestion)
   }
 
+  //Change the currentPArticipant to the id of the participant linked to the cell clicked
+  //This updated the currentPArticipant in the parent component!
   function selectParticipant(e){
-    // console.log("participant clicked")
-    // console.log(e.currentTarget.id)
     currentParticipant = data[e.currentTarget.id]
   }
 </script>
@@ -159,9 +157,6 @@
     {/each}
   </svg>
 </article>
-<!-- {#if currentParticipant}
-  <ProjectCard participant={currentParticipant}/>
-{/if} -->
 
 <style>
   svg {
