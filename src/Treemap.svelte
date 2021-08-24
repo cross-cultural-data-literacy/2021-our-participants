@@ -159,9 +159,9 @@
     {/each}
   </svg>
 </article>
-{#if currentParticipant}
+<!-- {#if currentParticipant}
   <ProjectCard participant={currentParticipant}/>
-{/if}
+{/if} -->
 
 <style>
   svg {

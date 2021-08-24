@@ -9,9 +9,26 @@
 	import Treemap from './Treemap.svelte'
 
 	const vizWidth = screen.width * .6
-	const vizheight = screen.height * .7
+	const vizHeight = screen.height * .7
 
 	let inputData = []
+
+	let flipped = false
+	
+	function flip(node, {
+		delay = 0,
+		duration = 1500
+	}) {
+		return {
+			delay,
+			duration,
+			css: (t, u) => `
+				transform: rotateY(${1 - (u * 180)}deg);
+				opacity: ${1 - u};
+			`
+		}
+	}
+
 	//Load the word data and set variables
 	onMount(async () => {
 		inputData = await csv('assets/data/survey.csv')
@@ -20,10 +37,25 @@
 
 <main>
 	<h1>Our participants</h1>
-
-	{#if inputData.length > 0}
-		<Treemap data={inputData} width={vizWidth} height={vizheight}/>
-	{/if}
+	<div class="card-container" on:click={() => flipped = !flipped}
+		style="width:{vizWidth}px; height:{vizHeight}px;">
+		<div class="card">
+			{#if !flipped}
+				<div class="side" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
+					{#if inputData.length > 0}
+						<Treemap  
+						data={inputData} 
+						width={vizWidth} 
+						height={vizHeight}/>
+					{/if}
+				</div>
+			{:else if flipped}
+				<div class="side back" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
+					Side B
+				</div>
+			{/if}
+		</div>
+	</div>
 </main>
 
 <style>
@@ -37,6 +69,14 @@
 		text-transform: uppercase;
 		font-size: 2em;
 		font-weight: 200;
+	}
+	
+	.side {
+		position: absolute;
+		overflow: hidden;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	@media (min-width: 640px) {

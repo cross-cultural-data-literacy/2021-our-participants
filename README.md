@@ -11,7 +11,8 @@ A datavisualization project showing the diversity of our participants and their 
 
 ### Laurens
 - projectCard still needs to be styled
-- Switch to personal card using [this](https://www.w3schools.com/howto/howto_css_flip_card.asp). Or with [this simple svelte example :)](https://svelte.dev/repl/9c5a422b0dfd4c43a7cd7fd807cdbb1c?version=3.24.0)
+- Flip to personal card using [this](https://www.w3schools.com/howto/howto_css_flip_card.asp). Or with [this simple svelte example :)](https://svelte.dev/repl/9c5a422b0dfd4c43a7cd7fd807cdbb1c?version=3.24.0)
+- Remove card div and put styling on parent?
 - Some original images are way bigger than anything we will show on screen, even on a mousover popout full size. Ideally they should be resized so the user doesn't have to download 7mb images.  Suggestion go for 1600 as largest instead of original.
 - It looks like the 'sharp' image resizer sometimes takes cutouts of the images instead of actually resizing them. Do we decide this is a feature or a bug? (reproduce: look at neighbourhood47 original and resized).
 - Nice to have: larger popout versions of images on mouseover (with max width and height)
