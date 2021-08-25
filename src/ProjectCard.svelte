@@ -29,24 +29,31 @@
   {#if participantHas(participant, '_photo_window')}
     <img src="{s.imageFolder + '/resized/_photo_window' + participant._id + imageExtension}" alt="Photo out of the participant's window"/>
   {/if}
-  <p>My main mode of transportation is: {participant._transportation} {participant._transportation_emoji}</p>
-  <p>My favorite food is: {participant._favorite_food}</p>
+  <p>I live in <span class=answer>{participant._city}</span></p>
+  <p>My main mode of transportation is <span class=answer>{participant._transportation}</span> {participant._transportation_emoji}</p>
+  <p>My favorite food is <span class=answer>{participant._favorite_food}</span></p>
   {#if participant._housemates.toLowerCase().includes('alone')}
-    <p>I live by myself</p>
+    <p><span class=answer>I live by myself</span></p>
   {:else}
-    <p>I live together with my {participant._housemates.toLowerCase().replace('my', '')} {participant._housemates_emoji}</p>
+    <p>I live together with my <span class=answer>{participant._housemates.toLowerCase().replace('my', '')}</span> {participant._housemates_emoji}</p>
   {/if}
   {#if participantHas(participant, '_pet')}
-    <p>I have a {participant._pet}! {emojiGet(participant._pet)}</p>
+    <p>I have a <span class=answer>{participant._pet}!</span> {emojiGet(participant._pet)}</p>
   {/if}
 </article>
 
 <style>
   article {
     margin: 0 auto;
-    background-color: rgb(204, 178.29, 102);
+    background-color: #f5efdf;
     width: 70%;
   }
   img {
+    max-width: 30%;
+  }
+  .answer {
+    font-size: large;
+    font-style: italic;
+    text-decoration: rgb(113.36, 198.98, 107.02) underline;
   }
 </style> 

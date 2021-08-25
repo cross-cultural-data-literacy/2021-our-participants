@@ -52,7 +52,7 @@
 				{/if}
 			</div>
 		{:else if flipped}
-			<div class="side back" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
+			<div class="side" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
 				{#if currentParticipant}
 				  <ProjectCard participant={currentParticipant}/>
 				{/if}

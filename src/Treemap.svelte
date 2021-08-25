@@ -151,7 +151,7 @@
            xlink:href={imageFolder + cell.data.name + imageExtension}
            x={cell.x0} y={cell.y0}
            width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
-           alt="Room Drawing"/>
+           alt="Picture chosed by participant"/>
       {/if}
     </g>
     {/each}
@@ -163,8 +163,5 @@
     fill: none;
     stroke: rgba(127.5, 127.5, 127.5, 0.83);
     stroke-width:  .05em;
-  }
-  text {
-    fill: rgb(0, 0, 139);
   }
 </style>

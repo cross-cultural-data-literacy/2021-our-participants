@@ -21,7 +21,6 @@ A datavisualization project showing the diversity of our participants and their 
 - "I live together with" sentence generation doesn't always work. Might be better to replace with "living situation:" followed by the answer itself.
 - Host project somewhere. 
 - Check if it can be implemented in the main wordpress website
-- Add _important_ and _pet_ rows to personal card. Maybe pet to grid view
 
 ## Resources
 I've used [this example](https://svelte.dev/repl/9c5a422b0dfd4c43a7cd7fd807cdbb1c?version=3.24.0) to get the flip animation to work.
