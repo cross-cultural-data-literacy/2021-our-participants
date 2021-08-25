@@ -1,9 +1,11 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
   import {treemap, hierarchy, treemapResquarify} from "d3-hierarchy"
   import * as nameMap from 'emoji-name-map'
 
   import Dropdown from './ui_components/Dropdown.svelte'
-
+  
+  const dispatch = createEventDispatcher()
   export let data
   export let width
   export let height
@@ -85,13 +87,13 @@
     else{
       values.forEach(row => row.value = column+row.id)
     }
-    console.log("formatted column data", column, values)
+    // console.log("formatted column data", column, values)
     return values
   }
   
   //Have d3 calculate the treemap setup and trigger a svelte rerender
   function drawViz(input){
-    console.log("Rendering treemap for column:", input.name)
+    // console.log("Rendering treemap for column:", input.name)
     const newHierarchy = {
       name: 'values',
       children: input.data.map((row) => ({
@@ -123,6 +125,9 @@
   //This updated the currentPArticipant in the parent component!
   function selectParticipant(e){
     currentParticipant = data[e.currentTarget.id]
+    dispatch('flip', {
+      id: data[e.currentTarget.id]
+    })
   }
 </script>
 <article>

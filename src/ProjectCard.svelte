@@ -1,20 +1,25 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
   import {settings as s} from './config.js'
   import {get as emojiGet} from 'emoji-name-map'
 
   //TODO the participant is not reactive yet. Changing the participant in the treemap doesn't update the data here
   export let participant
+  const dispatch = createEventDispatcher();
   const imageExtension = '.png'
-  console.log(participant)
-  console.log(s)
 
   function participantHas(part, prop){
-    console.log(part, part[prop])
+    // console.log(part, part[prop])
     return part[prop] !== ''
+  }
+  function handleClick(){
+    dispatch('flip', {
+      id: participant._id
+    })
   }
 </script>
 
-<article>
+<article on:click={handleClick}>
   <h1>Participant #{participant._id}</h1>
   <a href={participant._project_link} target="blank">Link to final work</a>
   {#if participantHas(participant, '_drawing_neighbourhood')}

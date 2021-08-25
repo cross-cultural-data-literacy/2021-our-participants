@@ -39,22 +39,26 @@
 
 <main>
 	<h1>Our participants</h1>
-	<div class="card-container" on:click={() => flipped = !flipped}>
+	<div class="card-container">
 		{#if !flipped}
 			<div class="side" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
 				{#if inputData.length > 0}
 					<Treemap  
-					data={inputData} 
-					width={vizWidth} 
-					height={vizHeight}
-					bind:currentParticipant={currentParticipant}
+						data={inputData} 
+						width={vizWidth} 
+						height={vizHeight}
+						bind:currentParticipant={currentParticipant}
+						on:flip={() => flipped = !flipped}
 					/>
 				{/if}
 			</div>
 		{:else if flipped}
 			<div class="side" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
 				{#if currentParticipant}
-				  <ProjectCard participant={currentParticipant}/>
+				  <ProjectCard 
+					  participant={currentParticipant}
+					  on:flip={() => flipped = !flipped}
+				  />
 				{/if}
 			</div>
 		{/if}
