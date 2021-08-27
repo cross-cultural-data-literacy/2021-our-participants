@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import {treemap, hierarchy, treemapResquarify} from "d3-hierarchy"
   import * as nameMap from 'emoji-name-map'
+  import {settings as s} from './config.js'
 
   import Dropdown from './ui_components/Dropdown.svelte'
   
@@ -12,8 +13,7 @@
 
   export let currentParticipant
   //template data
-  const imageFolder = 'assets/images/resized/'
-  const imageExtension = '.png'
+  
   let d3Treemap
   let cells
 
@@ -153,7 +153,7 @@
       </text>
       {:else}
       <image class=""
-           xlink:href={imageFolder + cell.data.name + imageExtension}
+           xlink:href={s.imageFolder + '/small/' + cell.data.name + s.imageExtension}
            x={cell.x0} y={cell.y0}
            width={cell.x1 - cell.x0} height={cell.y1 - cell.y0}
            alt="Picture chosed by participant"/>
