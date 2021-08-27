@@ -19,40 +19,40 @@
 </script>
 
 <article class="cardContainer" on:click={handleClick}>
-  <div class="titleAndProject">
+  <section>
   <h1>Participant #{participant._id}</h1>
   {#if participantHas(participant, '_project_link')}
     <a href={participant._project_link} target="blank">A link to my project</a>
   {/if}
-  </div>
-
+  </section>
+  <section class="images">
     {#if participantHas(participant, '_drawing_neighbourhood')}
-      <figure>
+      <figure class="column">
         <img src="{s.imageFolder + '/small/_drawing_neighbourhood' + participant._id + s.imageExtension}" alt="Drawing of the neighbourhood"/>
         <figcaption>My neighbourhood.</figcaption>
       </figure>  
     {/if}
     {#if participantHas(participant, '_drawing_room')}
-      <figure>
+      <figure class="column">
         <img src="{s.imageFolder + '/small/_drawing_room' + participant._id + s.imageExtension}" alt="Drawing of the participant's room"/>
         <figcaption>My room.</figcaption>
       </figure> 
     {/if}
     {#if participantHas(participant, '_photo_breakfast')}
-      <figure>
+      <figure class="column">
         <img src="{s.imageFolder + '/small/_photo_breakfast' + participant._id + s.imageExtension}" alt="Photo of the participant's breakfast"/>
         <figcaption>My breakfast.</figcaption>
       </figure>
     {/if}
     {#if participantHas(participant, '_photo_window')}
-      <figure>
+      <figure class="column">
         <img src="{s.imageFolder + '/small/_photo_window' + participant._id + s.imageExtension}" alt="Photo out of the participant's window"/>
         <figcaption>My view</figcaption>
       </figure>
     {/if}
-
+  </section>
   
-  <div class="info">
+  <section class="info">
     <p>I live in <span class=answer>{participant._city}</span></p>
     <p>My main mode of transportation is <span class=answer>{participant._transportation}</span> {participant._transportation_emoji}</p>
     <p>My favorite food is <span class=answer>{participant._favorite_food}</span></p>
@@ -64,20 +64,16 @@
     {#if participantHas(participant, '_pet')}
       <p>I have a <span class=answer>{participant._pet}!</span> {emojiGet(participant._pet)}</p>
     {/if}
-  </div>
+  </section>
 </article>
 
 <style>
   article {
-    margin: 0 auto;
     background-color: #f5efdf;
-    width: 70%;
-  }
-  figure {
-    max-width: 30%;
+    width: 100%;
+    height:  100%;
   }
   img {
-    /*max-width: 30%;*/
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 5px;
@@ -87,25 +83,17 @@
     font-style: italic;
     text-decoration: rgb(113.36, 198.98, 107.02) underline;
   }
-
-  .cardContainer {
-    height: 100%;
-    margin: 0;
-    display: grid; 
-    grid-template-columns: 1fr 1fr 1fr 1fr; 
-    grid-template-rows: 1fr 1fr 1fr; 
-    gap: 0px 0px; 
-    grid-template-areas: 
-      "titleAndProject titleAndProject titleAndProject titleAndProject"
-      ". . . ."
-      "info info info info"; 
+  .images {
+    display: flex;
   }
-  .titleAndProject { grid-area: titleAndProject; }
-  .info { grid-area: info; }
-
-
-/*  html, body , .container {
-    height: 100%;
-    margin: 0;
-  }*/
+  .column {
+    flex: 25%;
+    max-width: 25%;
+    margin: auto;
+    padding:  1em;
+  }
+  .column img {
+    vertical-align: middle;
+    width: 100%;
+  }
 </style> 
