@@ -1,6 +1,8 @@
 # 2021-our-participants
 A datavisualization project showing the diversity of our participants and their work
 
+This repository is a work in progress, hence the todo notes. You can run the project locally using `npm run dev`
+
 ## Todo
 
 ### Bert
@@ -13,11 +15,7 @@ A datavisualization project showing the diversity of our participants and their 
 ### Laurens
 - projectCard still needs to be styled
 - flipping back to the cells means the question get's reset. Because a rerender is triggered. Ideally the app should keep track of the current question and if set, pass it to the grid component
-- Some original images are way bigger than anything we will show on screen, even on a mousover popout full size. Ideally they should be resized so the user doesn't have to download 7mb images.  Suggestion go for 1600 as largest instead of original.
-- It looks like the 'sharp' image resizer sometimes takes cutouts of the images instead of actually resizing them. Do we decide this is a feature or a bug? (reproduce: look at neighbourhood47 original and resized).
 - Nice to have: larger popout versions of images on mouseover (with max width and height)
-- Repo can become public when the google sheet refs are removed and the sheet is offline
-- "I live together with" sentence generation doesn't always work. Might be better to replace with "living situation:" followed by the answer itself.
 - Host project somewhere. 
 - Check if it can be implemented in the main wordpress website
 - Small bug: In the pet column, there can be multiple values causing the emojiGet to return undefined. Should be wrapped in a function that checks if undefined is returned. possible also delete the multiple values for simplicity
