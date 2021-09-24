@@ -22,10 +22,6 @@
       dispatch('setNextQuestion')
     }
   }
-
-  function selectParticipant (event) {
-    currentParticipantId = event.currentTarget.dataset.id
-  }
 </script>
 
 <svelte:window on:keydown={handleKeydown}/>
@@ -44,7 +40,7 @@
     <div class="grid"
       class:images="{currentQuestion.type === 'image'}">
       {#each (hideMissingAnswers ? filteredAnswers : answers) as answer, index}
-        <div class="answer" on:click={() => currentParticipantId = `${answer.id}`}>
+        <div class="answer" on:click={() => currentParticipantId = answer.id}>
           {#if answer.value}
             {#if currentQuestion.type === 'emoji'}
               <span class="emoji">{answer.formatted}</span>
@@ -55,7 +51,7 @@
           {:else}
             <span class="emoji">🤷‍♀️</span>
           {/if}
-          <div class="id">#{answer.id + 1}</div>
+          <div class="id">#{answer.id}</div>
         </div>
       {/each}
     </div>

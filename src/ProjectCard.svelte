@@ -19,7 +19,7 @@
 
 <article class="card-container" on:click={handleClick}>
   <section>
-  <h1>Participant #{participant._id + 1}</h1>
+  <h1>Participant #{participant._id}</h1>
   {#if participantHas(participant, '_project_link')}
     <a href={participant._project_link} target="blank">A link to my project</a>
   {/if}

@@ -11,7 +11,7 @@
 
 	let participants = []
 	let currentParticipantId = null
-	$: currentParticipant = currentParticipantId ? participants[currentParticipantId] : undefined
+	$: currentParticipant = currentParticipantId !== null ? participants[currentParticipantId] : undefined
 
 	let orderAnswers = true
   let hideMissingAnswers = true
@@ -87,7 +87,7 @@
 </script>
 
 <div class="container">
-	{#if !currentParticipantId}
+	{#if currentParticipantId == null}
 		<div class="side" transition:flip>
 			{#if participants.length > 0}
 				<Grid
@@ -103,9 +103,9 @@
 				/>
 			{/if}
 		</div>
-	{:else if currentParticipantId}
+	{:else}
 		<div class="side" transition:flip>
-			{#if currentParticipantId}
+			{#if currentParticipant}
 				<ProjectCard
 					participant={currentParticipant}
 					on:flip={() => currentParticipantId = null}
