@@ -94,17 +94,31 @@ h2 {
   align-self: end;
 }
 
+@media (max-width: 1150px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  }
+
+  .grid.images {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  .grid .emoji {
+    font-size: 50px;
+  }
+}
+
 .grid {
   width: 100%;
   display: grid;
   /* grid-template-columns: repeat(12, 1fr); */
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   padding: 10px;
   grid-gap: 10px;
 }
 
 .grid.images {
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 }
 
 .grid .answer {
@@ -122,7 +136,7 @@ h2 {
   right: calc(-0.5rem + 2px);
   padding: 2px;
   font-size: 50%;
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.55);
   border-radius: 2px;
 }
 
@@ -132,6 +146,6 @@ h2 {
 }
 
 .grid .emoji {
-  font-size: 50px;
+  font-size: 80px;
 }
 </style>
