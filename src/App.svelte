@@ -1,25 +1,77 @@
 <script>
-	//SVELTE
 	import { onMount } from 'svelte'
 
-	//LIBS
-	import {csv} from 'd3-fetch'
-	
-	//COMPONENTS
-	import Treemap from './Treemap.svelte'
+	import { csv } from 'd3-fetch'
+	import * as nameMap from 'emoji-name-map'
+
+	import Grid from './Grid.svelte'
 	import ProjectCard from './ProjectCard.svelte'
 
-	const vizWidth = screen.width * .6
-	const vizHeight = screen.height * .7
+	import { questions } from './questions.js'
 
-	let inputData = []
-	let flipped = false
-	let currentParticipant = false
-	
-	//This functions flips a node by tweening its yRot and opacity
-	function flip(node, {
+	let participants = []
+	let currentParticipantId
+	$: currentParticipant = currentParticipantId ? participants[currentParticipantId] : undefined
+
+	let orderQuestions = true
+  let hideMissingCells = true
+
+  let currentQuestionIndex = 0
+  $: currentQuestion = questions[currentQuestionIndex]
+  $: answers = extractAnswers(participants, currentQuestion.column, {
+		orderQuestions,
+		hideMissingCells
+	})
+
+  function setPreviousQuestion () {
+    currentQuestionIndex = (currentQuestionIndex - 1 + questions.length) % questions.length
+  }
+
+  function setNextQuestion () {
+    currentQuestionIndex = (currentQuestionIndex + 1) % questions.length
+  }
+
+	function formatValue (row, column) {
+		const value = row[column]
+
+ 		if (column === '_cat_country') {
+      if (value === 'united states') {
+      	return 'us'
+      }
+      return nameMap.get(value) ? nameMap.get(value) : ''
+    } else if (column === '_transportation_emoji') {
+      // Note: because emoji's consist of multiple chars a simple emoji[0] doesn't work here
+      return [...value][0]
+    } else {
+			return column + row._id
+    }
+
+		return value
+	}
+
+  function extractAnswers (participants, column, options) {
+    let answers = [...participants]
+      .map((row) => ({
+        id: console.log(row._id) || row._id,
+				value: row[column],
+        formatted: formatValue(row, column)
+      }))
+
+		if (options.hideMissingCells) {
+			answers = answers.filter((row) => row.value)
+		}
+
+		if (options.orderQuestions) {
+			answers = answers.sort((rowA, rowB) => rowA.value.localeCompare(rowB.value))
+		}
+
+    return answers
+  }
+
+	// This functions flips a node by tweening its rotateY and opacity
+	function flip (node, {
 		delay = 0,
-		duration = 1000
+		duration = 250
 	}) {
 		return {
 			delay,
@@ -31,64 +83,54 @@
 		}
 	}
 
-	//Load the word data and set variables
-	onMount(async () => {
-		inputData = await csv('assets/data/survey.csv')
+	// Load the word data and set variables
+	onMount (async () => {
+		participants = await csv('assets/data/survey.csv')
 	})
 </script>
 
-<main>
-	<h1>Our participants</h1>
-	<div class="card-container">
-		{#if !flipped}
-			<div class="side" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
-				{#if inputData.length > 0}
-					<Treemap  
-						data={inputData} 
-						width={vizWidth} 
-						height={vizHeight}
-						bind:currentParticipant={currentParticipant}
-						on:flip={() => flipped = !flipped}
-					/>
-				{/if}
-			</div>
-		{:else if flipped}
-			<div class="side" style="width:{vizWidth}px; height:{vizHeight}px;" transition:flip>
-				{#if currentParticipant}
-				  <ProjectCard 
-					  participant={currentParticipant}
-					  on:flip={() => flipped = !flipped}
-				  />
-				{/if}
-			</div>
-		{/if}
-	</div>
-</main>
+<div class="container">
+	{#if !currentParticipantId}
+		<div class="side" transition:flip>
+			{#if participants.length > 0}
+				<Grid
+					answers={answers}
+					currentQuestion={currentQuestion}
+
+					on:setPreviousQuestion={setPreviousQuestion}
+      		on:setNextQuestion={setNextQuestion}
+					bind:currentParticipantId={currentParticipantId}
+
+					bind:orderQuestions={orderQuestions}
+  				bind:hideMissingCells={hideMissingCells}
+				/>
+			{/if}
+		</div>
+	{:else if currentParticipantId}
+		<div class="side" transition:flip>
+			{#if currentParticipantId}
+				<ProjectCard
+					participant={currentParticipant}
+					on:flip={() => currentParticipantId = undefined}
+				/>
+			{/if}
+		</div>
+	{/if}
+</div>
+
 
 <style>
-	main {
-		text-align: center;
-		margin: 0 auto;
-	}
+.container {
+	position: relative;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
 
-	h1 {
-		color: rgb(204, 108.22, 51);
-		text-transform: uppercase;
-		font-size: 2em;
-		font-weight: 200;
-	}
-	
-	.side {
-		position: absolute;
-		overflow: hidden;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+.side {
+	top: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
 </style>

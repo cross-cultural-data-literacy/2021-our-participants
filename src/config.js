@@ -1,4 +1,4 @@
 export const settings = {
-	imageFolder: 'assets/images/resized',
-	imageExtension: '.png'
+  imageFolder: 'assets/images/resized',
+  imageExtension: '.png'
 }
