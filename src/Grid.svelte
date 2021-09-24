@@ -44,7 +44,7 @@
     <div class="grid"
       class:images="{currentQuestion.type === 'image'}">
       {#each (hideMissingAnswers ? filteredAnswers : answers) as answer, index}
-        <div class="answer" on:click={selectParticipant} data-id={answer.id}>
+        <div class="answer" on:click={() => currentParticipantId = `${answer.id}`}>
           {#if answer.value}
             {#if currentQuestion.type === 'emoji'}
               <span class="emoji">{answer.formatted}</span>
