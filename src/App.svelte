@@ -13,14 +13,14 @@
 	let currentParticipantId
 	$: currentParticipant = currentParticipantId ? participants[currentParticipantId] : undefined
 
-	let orderQuestions = true
-  let hideMissingCells = true
+	let orderAnswers = true
+  let hideMissingAnswers = true
 
   let currentQuestionIndex = 0
   $: currentQuestion = questions[currentQuestionIndex]
   $: answers = extractAnswers(participants, currentQuestion.column, {
-		orderQuestions,
-		hideMissingCells
+		orderAnswers,
+		currentQuestionType: currentQuestion.type
 	})
 
   function setPreviousQuestion () {
@@ -32,12 +32,13 @@
   }
 
 	function formatValue (row, column) {
-		const value = row[column]
+		let value = row[column]
 
  		if (column === '_cat_country') {
       if (value === 'united states') {
-      	return 'us'
+      	value = 'us'
       }
+
       return nameMap.get(value) ? nameMap.get(value) : ''
     } else if (column === '_transportation_emoji') {
       // Note: because emoji's consist of multiple chars a simple emoji[0] doesn't work here
@@ -52,16 +53,12 @@
   function extractAnswers (participants, column, options) {
     let answers = [...participants]
       .map((row) => ({
-        id: console.log(row._id) || row._id,
+        id: parseInt(row._id),
 				value: row[column],
         formatted: formatValue(row, column)
       }))
 
-		if (options.hideMissingCells) {
-			answers = answers.filter((row) => row.value)
-		}
-
-		if (options.orderQuestions) {
+		if (options.orderAnswers && options.currentQuestionType !== 'image') {
 			answers = answers.sort((rowA, rowB) => rowA.value.localeCompare(rowB.value))
 		}
 
@@ -101,8 +98,8 @@
       		on:setNextQuestion={setNextQuestion}
 					bind:currentParticipantId={currentParticipantId}
 
-					bind:orderQuestions={orderQuestions}
-  				bind:hideMissingCells={hideMissingCells}
+					bind:orderAnswers={orderAnswers}
+  				bind:hideMissingAnswers={hideMissingAnswers}
 				/>
 			{/if}
 		</div>

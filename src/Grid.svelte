@@ -10,8 +10,10 @@
   export let currentQuestion
   export let currentParticipantId
 
-  export let orderQuestions
-  export let hideMissingCells
+  export let orderAnswers
+  export let hideMissingAnswers
+
+  $: filteredAnswers = answers.filter((answer) => answer.value)
 
   function handleKeydown (event) {
     if (event.key === 'ArrowLeft') {
@@ -31,15 +33,16 @@
 <div class="container">
   <header>
     <h1>Our 2021 participants</h1>
-    <Menu on:message
-      bind:orderQuestions={orderQuestions}
-  		bind:hideMissingCells={hideMissingCells}
+    <Menu on:setPreviousQuestion on:setNextQuestion
+      hasMissingAnwers={filteredAnswers.length !== answers.length}
+      bind:orderAnswers={orderAnswers}
+  		bind:hideMissingAnswers={hideMissingAnswers}
       currentQuestion={currentQuestion} />
   </header>
   {#if answers}
     <div class="grid"
       class:images="{currentQuestion.type === 'image'}">
-      {#each answers as answer, index}
+      {#each (hideMissingAnswers ? filteredAnswers : answers) as answer, index}
         <div class="answer" on:click={selectParticipant} data-id={answer.id}>
           {#if answer.value}
             {#if currentQuestion.type === 'emoji'}
@@ -49,7 +52,7 @@
                 src="{`${settings.imageFolder}/small/${answer.formatted}${settings.imageExtension}`}" />
             {/if}
           {:else}
-            <div>NN</div>
+            <span class="emoji">🤷‍♀️</span>
           {/if}
           <div class="id">#{answer.id + 1}</div>
         </div>

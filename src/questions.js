@@ -13,25 +13,25 @@ export const questions = [
   },
   {
     name: 'room drawing',
-    title: 'What does your room look like?',
+    title: 'What their room looks like',
     column: '_drawing_room',
     type: 'image'
   },
   {
     name: 'neighbourhood drawing',
-    title: 'What does your neighbourhood look like?',
+    title: 'What their neighbourhood looks like',
     column: '_drawing_neighbourhood',
     type: 'image'
   },
   {
     name: 'window picture',
-    title: 'What do you see when you look out the window?',
+    title: 'What they see when they look out the window',
     column: '_photo_window',
     type: 'image'
   },
   {
     name: 'breakfast picture',
-    title: 'What does your breakfast look like?',
+    title: 'What their breakfast looks like',
     column: '_photo_breakfast',
     type: 'image'
   }

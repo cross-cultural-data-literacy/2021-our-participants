@@ -45,7 +45,7 @@ input, button, select, textarea {
 	border-radius: 2px;
 }
 
-input:disabled {
+input:disabled, input:disabled + label {
 	color: #ccc;
 }
 

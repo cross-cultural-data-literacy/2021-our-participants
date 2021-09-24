@@ -2,8 +2,10 @@
   import { createEventDispatcher } from 'svelte'
   export let currentQuestion
 
-  export let orderQuestions
-  export let hideMissingCells
+  export let orderAnswers
+  export let hideMissingAnswers
+
+  export let hasMissingAnwers
 
   const dispatch = createEventDispatcher()
 
@@ -14,7 +16,6 @@
   function setNextQuestion () {
     dispatch('setNextQuestion')
   }
-
 </script>
 
 <div>
@@ -22,15 +23,19 @@
   <button on:click={setPreviousQuestion}>←</button>
   <button on:click={setNextQuestion}>→</button>
 
-  <label>
-	  <input type=checkbox bind:checked={orderQuestions} />
-	  Order questions
-  </label>
+  <div>
+	  <input id="order-answers"
+      type=checkbox disabled={currentQuestion.type === 'image'}
+      bind:checked={orderAnswers} />
+    <label for="order-answers">Group answers</label>
+  </div>
 
-  <label>
-	  <input type=checkbox bind:checked={hideMissingCells} />
-	  Hide missing answers
-  </label>
+  <div>
+	  <input id="hide-missing-cells"
+     type=checkbox disabled={!hasMissingAnwers}
+      bind:checked={hideMissingAnswers} />
+    <label for="hide-missing-cells">Hide missing answers</label>
+  </div>
 </div>
 
 <style>

@@ -68,6 +68,7 @@
 
 <style>
   article {
+    overflow-y: auto;
     background-color: #f5efdf;
     width: 100%;
     height: 100%;
