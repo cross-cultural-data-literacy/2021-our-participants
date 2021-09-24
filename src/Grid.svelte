@@ -33,6 +33,7 @@
 <div class="container">
   <header>
     <h1>Our 2021 participants</h1>
+    <h2>{currentQuestion.title}</h2>
     <Menu on:setPreviousQuestion on:setNextQuestion
       hasMissingAnwers={filteredAnswers.length !== answers.length}
       bind:orderAnswers={orderAnswers}
@@ -74,12 +75,27 @@ header {
   display: grid;
   grid-template-columns: repeat(2, minmax(120px, 1fr));
   width: 100%;
-
+  grid-gap: 10px;
   padding: 10px;
 }
 
-h1 {
+h1, h2 {
   margin: 0;
+}
+
+@media (max-width: 576px) {
+  h1 {
+    font-size: 125%;
+  }
+
+  h2 {
+    font-size: 100%;
+  }
+}
+
+h2 {
+  font-weight: normal;
+  align-self: end;
 }
 
 .grid {

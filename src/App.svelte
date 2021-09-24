@@ -10,7 +10,7 @@
 	import { questions } from './questions.js'
 
 	let participants = []
-	let currentParticipantId
+	let currentParticipantId = null
 	$: currentParticipant = currentParticipantId ? participants[currentParticipantId] : undefined
 
 	let orderAnswers = true
@@ -108,7 +108,7 @@
 			{#if currentParticipantId}
 				<ProjectCard
 					participant={currentParticipant}
-					on:flip={() => currentParticipantId = undefined}
+					on:flip={() => currentParticipantId = null}
 				/>
 			{/if}
 		</div>

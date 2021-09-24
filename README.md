@@ -10,14 +10,8 @@ Make changes in main, pull to website branch and push from there to update the w
 
 ## Todo
 
-### Bert
-- Finish treemap->grid conversion
-- Set up a new menu (swipe through questions or implement menu in 1 dedicated cell)
-- Make everything responsive (to screen size)
-- (add alt texts for images)
-- In Firefox the emoji values in the treemap don't show...hopefully this is auto fixed when you switch tot he gridview
-
 ### Laurens
+- maybe make photos bigger (full width?). The photos might be the most interesting aspect of this project, it's worth it to show them at full screen size.
 - projectCard still needs to be styled
 - flipping back to the cells means the question get's reset. Because a rerender is triggered. Ideally the app should keep track of the current question and if set, pass it to the grid component
 - Nice to have: larger popout versions of images on mouseover (with max width and height)
